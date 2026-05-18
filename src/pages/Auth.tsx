@@ -9,7 +9,7 @@ import { AnimatedLogo } from "@/components/AnimatedLogo";
 import { z } from "zod";
 
 const emailSchema = z.string().email("Invalid email address");
-const passwordSchema = z.string().min(6, "Password must be at least 6 characters");
+const passwordSchema = z.string().min(1, "Password is required");
 
 const Auth = () => {
   const navigate = useNavigate();
