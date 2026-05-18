@@ -195,7 +195,7 @@ const Auth = () => {
           />
           <Input
             type="password"
-            placeholder={isSignUp ? "Password (min 6 characters)" : "Password"}
+            placeholder={isSignUp ? "Password" : "Password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
