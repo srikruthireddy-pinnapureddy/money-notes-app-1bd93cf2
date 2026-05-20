@@ -10,6 +10,7 @@ import { BarcodeScanner } from "@/components/BarcodeScanner";
 import { GroupSpace, PersonalSpace } from "@/components/spaces";
 import { AnimatedLogo } from "@/components/AnimatedLogo";
 import { WelcomeBanner } from "@/components/WelcomeBanner";
+import { Seo } from "@/components/Seo";
 import { AnimatedCounter } from "@/components/investments/AnimatedCounter";
 import { CreateGroupDialog } from "@/components/CreateGroupDialog";
 import { AddTransactionDrawer } from "@/components/AddTransactionDrawer";
