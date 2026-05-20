@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2, Users, CheckCircle, XCircle, AlertCircle } from "lucide-react";
 import { AnimatedLogo } from "@/components/AnimatedLogo";
 import { Session } from "@supabase/supabase-js";
+import { Seo } from "@/components/Seo";
 
 interface GroupInfo {
   success: boolean;
