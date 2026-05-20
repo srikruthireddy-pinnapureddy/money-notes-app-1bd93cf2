@@ -28,6 +28,7 @@ import { BatchReceiptScanner } from "@/components/BatchReceiptScanner";
 import { GroupInviteDialog } from "@/components/GroupInviteDialog";
 import { SettlementsSection } from "@/components/SettlementsSection";
 import { EditExpenseDrawer } from "@/components/EditExpenseDrawer";
+import { Seo } from "@/components/Seo";
 import { DeleteExpenseDialog } from "@/components/DeleteExpenseDialog";
 import { ActiveInvitesSection } from "@/components/ActiveInvitesSection";
 import { FloatingChat } from "@/components/chat";
