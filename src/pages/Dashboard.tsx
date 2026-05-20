@@ -294,6 +294,7 @@ const Dashboard = () => {
       </div>;
   }
   return <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-accent/5">
+      <Seo title="Dashboard | ExpenX" description="Your ExpenX dashboard: track group spending, personal transactions, and settlements at a glance." path="/dashboard" noindex />
       {/* Header - Hides on scroll down, shows on scroll up */}
       <motion.nav 
         className={cn(
