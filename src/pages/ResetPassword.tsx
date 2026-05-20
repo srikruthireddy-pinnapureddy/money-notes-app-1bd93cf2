@@ -72,6 +72,7 @@ const ResetPassword = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-primary/10 via-background to-accent/10 px-6 py-8 safe-top">
+      <Seo title="Reset password | ExpenX" description="Set a new password for your ExpenX account." path="/reset-password" noindex />
       <div className="flex-1 flex flex-col justify-center max-w-md w-full mx-auto">
         <div className="flex items-center gap-3 mb-10 justify-center">
           <AnimatedLogo size="md" className="h-14 w-14" />
