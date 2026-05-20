@@ -13,6 +13,7 @@ import { Session } from "@supabase/supabase-js";
 import { z } from "zod";
 import { ExportReportsDialog } from "@/components/reports";
 import { PushNotificationToggle } from "@/components/notifications";
+import { Seo } from "@/components/Seo";
 
 const profileSchema = z.object({
   displayName: z.string().trim().max(50, "Display name must be 50 characters or less").optional(),
