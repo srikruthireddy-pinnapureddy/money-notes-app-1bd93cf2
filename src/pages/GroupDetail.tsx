@@ -323,6 +323,7 @@ const GroupDetail = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-accent/5 pb-24">
+      <Seo title="Group | ExpenX" description="Manage shared expenses, settlements, and members for this ExpenX group." path={`/group/${id ?? ""}`} noindex />
       {/* Header */}
       <header className="border-b bg-background/95 backdrop-blur-sm sticky top-0 z-10 safe-top">
         <div className="px-4 py-4">
