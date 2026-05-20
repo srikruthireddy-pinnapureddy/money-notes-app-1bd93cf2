@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Download, Smartphone, Check, Share, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { AnimatedLogo } from "@/components/AnimatedLogo";
+import { Seo } from "@/components/Seo";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
