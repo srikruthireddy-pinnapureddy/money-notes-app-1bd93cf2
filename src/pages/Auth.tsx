@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import { AnimatedLogo } from "@/components/AnimatedLogo";
 import { z } from "zod";
+import { Seo } from "@/components/Seo";
 
 const emailSchema = z.string().email("Invalid email address");
 const passwordSchema = z.string().min(1, "Password is required");
