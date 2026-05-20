@@ -88,20 +88,28 @@ test.describe("Old access token rejected after refresh", () => {
     expect(rows.length).toBe(1);
 
     // 5. Forge an EXPIRED version of the OLD access token and try to use it.
-    //    Supabase must reject it on both /auth/v1/user and PostgREST.
+    //    Supabase must reject it on both GoTrue and PostgREST with specific
+    //    auth error codes/messages — not generic 4xx.
     const expiredOldToken = forgeExpiredToken(oldAccessToken);
 
+    // 5a. GoTrue /auth/v1/user → 401 with "expired" message
     const meRes = await ctx.get(`${SUPABASE_URL}/auth/v1/user`, {
       headers: {
         apikey: SUPABASE_ANON_KEY,
         Authorization: `Bearer ${expiredOldToken}`,
       },
     });
+    expect(meRes.status(), "GoTrue must return 401 for expired JWT").toBe(401);
+    const meBody = await meRes.json().catch(() => ({} as any));
+    const meMessage = String(meBody.msg ?? meBody.message ?? meBody.error_description ?? "");
+    const meCode = String(meBody.error_code ?? meBody.code ?? "");
     expect(
-      meRes.status(),
-      "Expired old access token must be rejected by /auth/v1/user"
-    ).toBeGreaterThanOrEqual(400);
+      /expired/i.test(meMessage) || /bad_jwt|invalid.?jwt|jwt.?expired/i.test(meCode),
+      `Expected GoTrue 'expired' error, got code='${meCode}' msg='${meMessage}'`
+    ).toBeTruthy();
 
+    // 5b. PostgREST → 401 with PGRST code and "JWT expired" message.
+    //     RLS never even runs because authentication fails first.
     const profilesRes = await ctx.get(
       `${SUPABASE_URL}/rest/v1/profiles?id=eq.${userId}&select=id`,
       {
@@ -111,13 +119,44 @@ test.describe("Old access token rejected after refresh", () => {
         },
       }
     );
+    expect(profilesRes.status(), "PostgREST must return 401 for expired JWT").toBe(401);
+    const wwwAuth = profilesRes.headers()["www-authenticate"] ?? "";
     expect(
-      profilesRes.status(),
-      "Expired old access token must be rejected by PostgREST"
-    ).toBeGreaterThanOrEqual(400);
+      /Bearer/i.test(wwwAuth),
+      `Expected WWW-Authenticate: Bearer challenge, got '${wwwAuth}'`
+    ).toBeTruthy();
+    const profilesBody = await profilesRes.json().catch(() => ({} as any));
+    const pgMessage = String(profilesBody.message ?? profilesBody.msg ?? "");
+    const pgCode = String(profilesBody.code ?? "");
+    expect(
+      /JWT.*expired|expired/i.test(pgMessage),
+      `Expected PostgREST 'JWT expired' message, got '${pgMessage}' (code='${pgCode}')`
+    ).toBeTruthy();
+    // PostgREST surfaces PGRST301 for expired JWTs; tolerate code being absent
+    // on some gateway versions but assert format when present.
+    if (pgCode) {
+      expect(
+        /^PGRST3\d{2}$/.test(pgCode),
+        `Expected PGRST3xx auth error code, got '${pgCode}'`
+      ).toBeTruthy();
+    }
 
-    // 6. The refresh token itself must not be reusable after rotation either —
-    //    Supabase invalidates the previous refresh token on rotation.
+    // 5c. RLS sanity: even attempting to read another user's row with the
+    //     expired token must fail with the SAME auth error (not an RLS empty
+    //     result), confirming the request is rejected pre-RLS.
+    const otherRes = await ctx.get(
+      `${SUPABASE_URL}/rest/v1/profiles?id=eq.00000000-0000-0000-0000-000000000000&select=id`,
+      {
+        headers: {
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${expiredOldToken}`,
+        },
+      }
+    );
+    expect(otherRes.status(), "Expired JWT must 401 regardless of target row").toBe(401);
+
+    // 6. The OLD refresh token must not be reusable after rotation.
+    //    GoTrue returns 400 invalid_grant / refresh_token_not_found.
     const reuseRes = await ctx.post(
       `${SUPABASE_URL}/auth/v1/token?grant_type=refresh_token`,
       {
@@ -126,9 +165,17 @@ test.describe("Old access token rejected after refresh", () => {
       }
     );
     expect(
-      reuseRes.status(),
-      "Old refresh token must not be reusable after rotation"
-    ).toBeGreaterThanOrEqual(400);
+      [400, 401].includes(reuseRes.status()),
+      `Expected 400/401 on refresh reuse, got ${reuseRes.status()}`
+    ).toBeTruthy();
+    const reuseBody = await reuseRes.json().catch(() => ({} as any));
+    const reuseError = String(reuseBody.error ?? reuseBody.error_code ?? reuseBody.code ?? "");
+    const reuseMsg = String(reuseBody.error_description ?? reuseBody.msg ?? reuseBody.message ?? "");
+    expect(
+      /invalid_grant|refresh_token_not_found|refresh_token_already_used/i.test(reuseError) ||
+        /refresh.?token|invalid.?grant|already.?used/i.test(reuseMsg),
+      `Expected invalid_grant/refresh_token_* error, got error='${reuseError}' msg='${reuseMsg}'`
+    ).toBeTruthy();
 
     await ctx.dispose();
   });
