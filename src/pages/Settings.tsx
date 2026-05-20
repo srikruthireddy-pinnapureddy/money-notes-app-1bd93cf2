@@ -13,6 +13,7 @@ import { Session } from "@supabase/supabase-js";
 import { z } from "zod";
 import { ExportReportsDialog } from "@/components/reports";
 import { PushNotificationToggle } from "@/components/notifications";
+import { Seo } from "@/components/Seo";
 
 const profileSchema = z.object({
   displayName: z.string().trim().max(50, "Display name must be 50 characters or less").optional(),
@@ -209,6 +210,7 @@ const Settings = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-accent/5 pb-8">
+      <Seo title="Settings | ExpenX" description="Manage your ExpenX profile, notifications, appearance, and data export options." path="/settings" noindex />
       <header className="border-b bg-background/95 backdrop-blur-sm sticky top-0 z-10 safe-top">
         <div className="px-4 py-4 flex items-center gap-3">
           <Button variant="ghost" size="icon" onClick={() => navigate("/dashboard")}>

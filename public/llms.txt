@@ -1,0 +1,11 @@
+# ExpenX
+
+> ExpenX is a modern group expense manager. Split bills with friends, track shared costs across groups, manage personal spending, and settle up seamlessly.
+
+ExpenX is a mobile-first web and Android app built around two spaces: a Group space for shared expenses and settlements, and a Personal space for individual tracking and investments. It supports recurring expenses, receipt OCR, real-time chat, push notifications, and a built-in AI financial assistant.
+
+## Pages
+
+- [Home](/): ExpenX dashboard entry point.
+- [Sign in or sign up](/auth): Create an account or sign in with email and password.
+- [Install ExpenX](/install): Install ExpenX as a Progressive Web App on iOS, Android, or desktop.

@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Download, Smartphone, Check, Share, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { AnimatedLogo } from "@/components/AnimatedLogo";
+import { Seo } from "@/components/Seo";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -76,6 +77,7 @@ const Install = () => {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <Seo title="Install ExpenX on your device" description="Install ExpenX as a Progressive Web App on iOS, Android, or desktop for a faster, app-like experience." path="/install" />
       <Card className="max-w-md w-full">
         <CardHeader className="text-center">
           <AnimatedLogo size="md" className="h-12 mx-auto mb-4" />

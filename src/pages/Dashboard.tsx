@@ -10,6 +10,7 @@ import { BarcodeScanner } from "@/components/BarcodeScanner";
 import { GroupSpace, PersonalSpace } from "@/components/spaces";
 import { AnimatedLogo } from "@/components/AnimatedLogo";
 import { WelcomeBanner } from "@/components/WelcomeBanner";
+import { Seo } from "@/components/Seo";
 import { AnimatedCounter } from "@/components/investments/AnimatedCounter";
 import { CreateGroupDialog } from "@/components/CreateGroupDialog";
 import { AddTransactionDrawer } from "@/components/AddTransactionDrawer";
@@ -294,6 +295,7 @@ const Dashboard = () => {
       </div>;
   }
   return <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-accent/5">
+      <Seo title="Dashboard | ExpenX" description="Your ExpenX dashboard: track group spending, personal transactions, and settlements at a glance." path="/dashboard" noindex />
       {/* Header - Hides on scroll down, shows on scroll up */}
       <motion.nav 
         className={cn(

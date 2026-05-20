@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2, Users, CheckCircle, XCircle, AlertCircle } from "lucide-react";
 import { AnimatedLogo } from "@/components/AnimatedLogo";
 import { Session } from "@supabase/supabase-js";
+import { Seo } from "@/components/Seo";
 
 interface GroupInfo {
   success: boolean;
@@ -219,6 +220,7 @@ const JoinGroup = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-accent/5 flex items-center justify-center p-4">
+      <Seo title="Join group | ExpenX" description="Accept an invite to join an ExpenX group and start splitting expenses together." path={`/join/${code ?? ""}`} noindex />
       <Card className="w-full max-w-md p-8">
         <div className="flex items-center gap-3 mb-6 justify-center">
           <AnimatedLogo size="md" />

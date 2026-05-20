@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import { AnimatedLogo } from "@/components/AnimatedLogo";
 import { z } from "zod";
+import { Seo } from "@/components/Seo";
 
 const emailSchema = z.string().email("Invalid email address");
 const passwordSchema = z.string().min(1, "Password is required");
@@ -166,6 +167,7 @@ const Auth = () => {
   // Email authentication view (default)
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-primary/10 via-background to-accent/10 px-6 py-8 safe-top">
+      <Seo title="Sign in or sign up | ExpenX" description="Sign in to ExpenX to split expenses, manage groups, and track personal spending. New users can create a free account." path="/auth" />
       <div className="flex-1 flex flex-col justify-center max-w-md w-full mx-auto">
         <div className="flex items-center gap-3 mb-10 justify-center">
           <AnimatedLogo size="md" className="h-14 w-14" />
